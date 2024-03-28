@@ -25,10 +25,10 @@ function App() {
         <ToastContainer position='top-center' />
         <Routes>
           <Route exact path='/' Component={Home} />
-          <Route path='/add' Component={Addedit} />
-          <Route path='/update/:id' Component={Addedit} />
-          <Route path='/view/:id' Component={View} />
-          <Route path='/about' Component={About} />
+          {/* <Route path='/add' Component={Addedit} /> */}
+          {/* <Route path='/update/:id' Component={Addedit} /> */}
+          {/* <Route path='/view/:id' Component={View} /> */}
+          {/* <Route path='/about' Component={About} /> */}
         </Routes>
       {/* </div> */}
     </BrowserRouter >

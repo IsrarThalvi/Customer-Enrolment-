@@ -22,13 +22,13 @@ const Header = () => {
         <Link to="/" >
           <p className={` ${activeTab === "Home" ? "active" : ""}`}
             onClick={() => setActiveTab("Home")}>
-           <b className='tab1' style={{marginLeft:"10px",backgroundColor:"green",padding:"10px",borderRadius:"15px"}}>Home</b> 
+            <b className='tab1' style={{ marginLeft: "10px", backgroundColor: "green", padding: "10px", borderRadius: "15px" }}>Home</b>
           </p>
         </Link>
         <Link to="/about" >
           <p className={`${activeTab === "About" ? "active" : ""}`}
             onClick={() => setActiveTab("About")}>
-            <b style={{marginLeft:"10px",backgroundColor:"green",padding:"10px",borderRadius:"15px"}}>About</b>
+            <b style={{ marginLeft: "10px", backgroundColor: "green", padding: "10px", borderRadius: "15px" }}>About</b>
           </p>
         </Link>
       </div>
