@@ -5,8 +5,9 @@ const Form = () => {
     const [prod, setProd] = useState([])
     const paperstyle = {
         backgroundColor: "#00796b",
-        height: "100vh",
-        width: "15%"
+        height: "95vh",
+        width: "15%",
+
     }
     const papercustomer = {
         fontSize: "4vh",
@@ -25,7 +26,7 @@ const Form = () => {
     }
     useEffect(()=>{
 console.log(prod)
-    }, [prod])
+    },[prod])
     return (
         <>
             <Grid backgroundColor="#e3f2fd">

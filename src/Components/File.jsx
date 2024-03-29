@@ -1,19 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Avatar, Button, Grid, Typography } from '@mui/material';
 
 const File = (props) => {
-    const [selectedImage, setSelectedImage] = useState(null);
-
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setSelectedImage(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
 
     const handleList = {
         display: "flex",
@@ -33,11 +21,7 @@ const File = (props) => {
         padding: "10px",
 
     };
-    const Container = {
-        // display: 'flex',
-        // flexDirection: 'row'
-        // justifyContant:"space-between"
-    }
+
     const handleNo = {
         position: "fixed",
         left: "16%"
@@ -77,7 +61,7 @@ const File = (props) => {
 
     return (
         <>
-            <Grid style={Container}>
+            <Grid>
                 <Grid style={handleList}>
                     <Typography variant="h6" style={handleNo}>Customer ID</Typography>
                     <Typography variant="h6" style={handleName}>Customer Name</Typography>
@@ -89,16 +73,8 @@ const File = (props) => {
                         <Grid key={index} container alignItems="center" style={handleCustomerbox}>
                             <Grid item xs={2} style={{ display: "flex" }}>
                                 <Grid >
-                                    <label htmlFor="avatarInput">
-                                        <Avatar alt="Avatar" src={selectedImage ? selectedImage : ''} style={{ cursor: 'pointer' }} />
-                                    </label>
-                                    <input
-                                        id="avatarInput"
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        onChange={handleImageChange}
-                                    />
+                                        <Avatar alt="Avatar" src={item.selectedImage} style={{ cursor: 'pointer' }} />
+                                    
                                 </Grid>
                                 <Typography style={{ marginTop: "6%", marginLeft: "8%" }}>{index + 1}</Typography>
                             </Grid>

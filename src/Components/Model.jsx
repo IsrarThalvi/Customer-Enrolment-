@@ -7,6 +7,9 @@ import { Grid, TextField } from '@mui/material';
 import { useState } from 'react';
 import { Avatar } from '@mui/material';
 import File from './File'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -85,6 +88,7 @@ export default function BasicModal({ prod, setProd }) {
     const handleOpen = () => {
         setName("");
         setEmail("")
+        setSelectedImage('')
         setOpen(true);
         setEdit(null);
     }
@@ -114,6 +118,9 @@ export default function BasicModal({ prod, setProd }) {
         updatedProd.splice(index, 1);
         setProd(updatedProd);
         console.log(updatedProd);
+        toast.error("contact delete successfully!", {
+            position: "top-center"
+        })
     };
 
     const handleAddCustomer = () => {
@@ -121,11 +128,14 @@ export default function BasicModal({ prod, setProd }) {
             alert("All field required");
         }
         else if (edit === null) {
-            prod.push({ name, email });
+            prod.push({ name, email, selectedImage });
             setProd(prod)
             setOpen(false)
+            toast.success("contact added successfully!", {
+                position: "top-center"
+            })
         } else {
-            prod.splice(edit, 1, { name, email });
+            prod.splice(edit, 1, { name, email, selectedImage });
             setProd(prod);
             setOpen(false)
         }
@@ -136,6 +146,7 @@ export default function BasicModal({ prod, setProd }) {
             <Button style={handlebtn} onClick={handleOpen}>
                 <b>+ ADD CUSTOMER</b>
             </Button>
+            <ToastContainer />
             <File product={prod} handleEdit={handleEdit} handleDelete={handleDelete} />
             <Modal
                 open={open}
@@ -145,7 +156,7 @@ export default function BasicModal({ prod, setProd }) {
                         ADD NEW CUSTOMER
                     </Typography>
                     <Button style={handleclose} onClick={handleClose} size="1px">
-                        +
+                        X
                     </Button>
                     <Grid style={handletext}>
                         <TextField label="Name" value={name} placeholder='Enter your name' style={{ marginBottom: "5%" }}
