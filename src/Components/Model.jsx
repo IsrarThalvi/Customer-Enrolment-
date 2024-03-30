@@ -9,6 +9,7 @@ import { Avatar } from '@mui/material';
 import File from './File'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { db } from '../Firebase';
 
 const style = {
     position: 'absolute',
@@ -110,36 +111,65 @@ export default function BasicModal({ prod, setProd }) {
         setName(editedCustomer.name);
         setEmail(editedCustomer.email);
         setOpen(true);
+
         console.log(editedCustomer.name, editedCustomer.email);
     };
 
     const handleDelete = (index) => {
-        const updatedProd = [...prod];
-        updatedProd.splice(index, 1);
-        setProd(updatedProd);
-        console.log(updatedProd);
-        toast.error("contact delete successfully!", {
-            position: "top-center"
-        })
-    };
-
-    const handleAddCustomer = () => {
-        if (name.length === 0 || email.length === 0) {
-            alert("All field required");
-        }
-        else if (edit === null) {
-            prod.push({ name, email, selectedImage });
-            setProd(prod)
-            setOpen(false)
-            toast.success("contact added successfully!", {
+        try {
+            const key = prod[index].id;
+            console.log(key, prod, index, prod[index])
+            db.child(key).remove();
+            const updatedProd = [...prod];
+            updatedProd.splice(index, 1);
+            setProd(updatedProd);
+            toast.error("contact delete successfully!", {
                 position: "top-center"
             })
-        } else {
-            prod.splice(edit, 1, { name, email, selectedImage });
-            setProd(prod);
-            setOpen(false)
+        } catch (e) {
+            console.log("error : ", e)
         }
-    }
+    };
+
+    const handleAddCustomer = async () => {
+        if (name.length === 0 || email.length === 0) {
+            toast.error("All fields are required!", { position: "top-center" });
+            return;
+        } try {
+            if (edit === null) {
+                // const ref = await db. ref("customer");
+                const newData = { name, email, selectedImage }
+                db.push(newData);
+                prod.push(newData);
+                setProd(prod)
+                toast.success("contact added successfully!", {
+                    position: "top-center"
+                })
+            } else {
+                const newData = { name, email, selectedImage }
+                const key = prod[edit].id;
+                console.log(key, newData, prod, edit)
+                db.child(key).update(newData)
+                const updatedProd = [...prod];
+                updatedProd.splice(edit, 1, newData);
+                setProd(updatedProd);
+                toast.success("contact update successfully!", {
+                    position: "top-center"
+                })
+            }
+            setName('');
+            setEmail('');
+            setSelectedImage('');
+            setOpen(false);
+
+        } catch (error) {
+            console.error('Error adding/editing customer:', error);
+            setOpen(false);
+            toast("contact edit successfully!", {
+                position: "top-center"
+            })
+        }
+    };
 
     return (
         <div>
@@ -179,9 +209,10 @@ export default function BasicModal({ prod, setProd }) {
                         </Grid>
                         <Typography style={handleimgName}>Upload Image</Typography>
                     </Grid>
-                    <Button style={handleaddbtn} onClick={handleAddCustomer}>ADD CUSTOMER</Button>
+                    <Button style={handleaddbtn} onClick={handleAddCustomer}>{edit === null ? 'ADD ' : 'Update '} CUSTOMER</Button>
                 </Box>
             </Modal>
         </div>
     );
 }
+

@@ -1,15 +1,15 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import firebase from "firebase/compat/app";
+import "firebase/compat/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCOalEIuFgWvnpka4R-iMF3z4p_H4ObD7c",
-  authDomain: "cutomer-enrollment.firebaseapp.com",
-  projectId: "cutomer-enrollment",
-  storageBucket: "cutomer-enrollment.appspot.com",
-  messagingSenderId: "271930487548",
-  appId: "1:271930487548:web:b035457a50c8e8cd5a5d79"
+  apiKey: "AIzaSyD8eeUQ-Gsj494_AadPywebqThO7BE6W2U",
+  authDomain: "customer-enrollment.firebaseapp.com",
+  projectId: "customer-enrollment",
+  storageBucket: "customer-enrollment.appspot.com",
+  messagingSenderId: "583825751675",
+  appId: "1:583825751675:web:3f5d38905a7a9848f76cde"
 };
 
-export const app = initializeApp(firebaseConfig);
+const fireDb = firebase.initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
+export const db = fireDb.database().ref("customers"); 

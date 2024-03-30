@@ -1,12 +1,18 @@
 import React,{useState, useEffect} from 'react'
 import { Button, Grid, Paper } from '@mui/material'
 import Model from './Model'
+import { db } from '../Firebase';
 const Form = () => {
     const [prod, setProd] = useState([])
+    
     const paperstyle = {
         backgroundColor: "#00796b",
         height: "95vh",
         width: "15%",
+        display:"flex",
+        justifyContant:"center",
+        alignItems:"center",
+        padding:"5px"
 
     }
     const papercustomer = {
@@ -24,16 +30,31 @@ const Form = () => {
         backgroundColor: "#00796b",
         color: "white"
     }
-    useEffect(()=>{
-console.log(prod)
-    },[prod])
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+               const snapshot = await db.once('value');
+                const data = snapshot.val();
+                if (data) {
+                    const customers = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+                    setProd(customers);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+        return () => {
+             };
+    }, []);
     return (
         <>
             <Grid backgroundColor="#e3f2fd">
                 <Grid display="flex">
 
                     <Paper style={paperstyle}>
-                        <b>my name is irfan ali</b>
+                      
                     </Paper>
 
                     <Button style={handlebtn}>
@@ -51,3 +72,7 @@ console.log(prod)
 }
 
 export default Form
+
+
+
+
