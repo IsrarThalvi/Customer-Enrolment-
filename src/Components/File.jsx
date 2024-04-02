@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Avatar, Button, Grid, Typography } from '@mui/material';
-
+import { MyContext } from '../App';
+// import { MyContext } from '../App';
 const File = (props) => {
-
+    
+    const { prod } = useContext(MyContext); 
+    console.log("File: ", prod);
     const handleList = {
         display: "flex",
         backgroundColor: "#a5d6a7",
@@ -57,8 +60,6 @@ const File = (props) => {
         marginLeft: "10px",
     };
 
-
-
     return (
         <>
             <Grid>
@@ -69,12 +70,11 @@ const File = (props) => {
                     <Typography variant="h6" style={handleActions}>Actions</Typography>
                 </Grid>
                 <Grid style={handleCustomer}>
-                    {props.product.map((item, index) => (
+                    {prod?.map((item, index) => (
                         <Grid key={index} container alignItems="center" style={handleCustomerbox}>
                             <Grid item xs={2} style={{ display: "flex" }}>
                                 <Grid >
                                         <Avatar alt="Avatar" src={item.selectedImage} style={{ cursor: 'pointer' }} />
-                                    
                                 </Grid>
                                 <Typography style={{ marginTop: "6%", marginLeft: "8%" }}>{index + 1}</Typography>
                             </Grid>

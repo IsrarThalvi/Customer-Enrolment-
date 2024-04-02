@@ -1,16 +1,15 @@
-import * as React from 'react';
+import React, { useState, useContext } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Grid, TextField } from '@mui/material';
-import { useState } from 'react';
 import { Avatar } from '@mui/material';
-import File from './File'
+import File from './File';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { db } from '../Firebase';
-
+import { MyContext } from '../App';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -23,6 +22,7 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
+
 const handlehadding = {
     position: "fixed",
     top: "0",
@@ -34,7 +34,8 @@ const handlehadding = {
     alignItems: "center",
     backgroundColor: "#00796b",
     color: "white"
-}
+};
+
 const handleclose = {
     position: "fixed",
     top: "0%",
@@ -44,45 +45,50 @@ const handleclose = {
     fontSize: "xx-large",
     backgroundColor: "#00796b",
     color: "white",
+};
 
-
-}
 const handletext = {
     position: "fixed",
     top: "25%",
     left: "16%"
-}
+};
+
 const handleaddbtn = {
     position: "fixed",
     top: "85%",
     left: "30%",
     backgroundColor: "#00796b",
     color: "white"
-}
+};
+
 const handleimage = {
     position: "fixed",
     top: "65%",
     left: "25%",
     color: "black"
-}
+};
+
 const handlebtn = {
     position: "fixed",
     top: "25%",
     left: "15%",
     backgroundColor: "#00796b",
     color: "white"
-}
+};
+
 const handleimgName = {
     position: "fixed",
     top: "67%",
     left: "40%",
     color: "black"
-}
-export default function BasicModal({ prod, setProd }) {
-    const [open, setOpen] = React.useState(false);
+};
+
+export default function BasicModal() {
+    const { prod, setProd } = useContext(MyContext); 
+    const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
     const [selectedImage, setSelectedImage] = useState(null);
-    const [name, setName] = useState("")
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [edit, setEdit] = useState(null);
 
@@ -92,7 +98,7 @@ export default function BasicModal({ prod, setProd }) {
         setSelectedImage('')
         setOpen(true);
         setEdit(null);
-    }
+    };
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -111,23 +117,20 @@ export default function BasicModal({ prod, setProd }) {
         setName(editedCustomer.name);
         setEmail(editedCustomer.email);
         setOpen(true);
-
-        console.log(editedCustomer.name, editedCustomer.email);
     };
 
     const handleDelete = (index) => {
         try {
             const key = prod[index].id;
-            console.log(key, prod, index, prod[index])
             db.child(key).remove();
             const updatedProd = [...prod];
             updatedProd.splice(index, 1);
             setProd(updatedProd);
             toast.error("contact delete successfully!", {
                 position: "top-center"
-            })
+            });
         } catch (e) {
-            console.log("error : ", e)
+            console.log("error : ", e);
         }
     };
 
@@ -137,37 +140,34 @@ export default function BasicModal({ prod, setProd }) {
             return;
         } try {
             if (edit === null) {
-                // const ref = await db. ref("customer");
-                const newData = { name, email, selectedImage }
+                const newData = { name, email, selectedImage };
                 db.push(newData);
                 prod.push(newData);
-                setProd(prod)
+                setProd(prod);
                 toast.success("contact added successfully!", {
                     position: "top-center"
-                })
+                });
             } else {
-                const newData = { name, email, selectedImage }
+                const newData = { name, email, selectedImage };
                 const key = prod[edit].id;
-                console.log(key, newData, prod, edit)
                 db.child(key).update(newData)
                 const updatedProd = [...prod];
                 updatedProd.splice(edit, 1, newData);
                 setProd(updatedProd);
                 toast.success("contact update successfully!", {
                     position: "top-center"
-                })
+                });
             }
             setName('');
             setEmail('');
             setSelectedImage('');
             setOpen(false);
-
         } catch (error) {
             console.error('Error adding/editing customer:', error);
             setOpen(false);
             toast("contact edit successfully!", {
                 position: "top-center"
-            })
+            });
         }
     };
 
@@ -215,4 +215,3 @@ export default function BasicModal({ prod, setProd }) {
         </div>
     );
 }
-
