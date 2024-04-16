@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { Grid } from '@mui/material';
 import Name from './components/Name';
+import Signin from './components/Signin';
 import UserInterface from './components/UserInterface';
 import Customerinterface from './components/Customerinterface';
 import Table from './components/MuiTable';
@@ -16,9 +17,10 @@ function App() {
    <Grid>
     {/* <Name/> */}
     <UserInterface/>
+    {/* <Signin/> */}
     {/* <Customerinterface/> */}
-    <CustomModel/>
-    <Table/>
+    {/* <CustomModel/> */}
+    {/* <Table/> */}
 
     </Grid> 
   );

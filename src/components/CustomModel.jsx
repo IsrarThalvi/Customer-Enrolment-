@@ -82,7 +82,7 @@ const CustomModel = () => {
             type="file"
             onChange={handleFileChange}
             inputProps={{ accept: 'image/*' }}
-            style={{ display: 'none' }}
+            style={{ display: 'flex', height: 309 }}
           />
             <TextField
               label='Customer Name'
